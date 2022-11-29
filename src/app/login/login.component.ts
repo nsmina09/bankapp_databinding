@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-login',
@@ -11,36 +13,43 @@ export class LoginComponent implements OnInit {
   account = 'Enter your account number';
   acnt = '';
   pswd = '';
-  //databse creating
-  userDetails: any = {
-    1000: {
-      account: 1000,
-      password: 1000,
-      username: 'mina',
-      balance: 4000000,
-    },
-    1001: {
-      account: 1001,
-      password: 1001,
-      username: 'hish',
-      balance: 40000,
-    },
-    1002: {
-      account: 1002,
-      password: 1002,
-      username: 'suh',
-      balance: 400,
-    }
-  }
 
-  constructor() { }
+
+  constructor(private ds: DataService, private router: Router) { }
 
   ngOnInit(): void {
   }
-
+  login() {
+    let acnt = this.acnt;
+    let pswd = this.pswd;
+    let result = this.ds.login(acnt, pswd);
+    if (result) {
+      alert('login successfully');
+      this.router.navigateByUrl('home');
+    } else {
+      alert('login failed');
+    }
+  }
   // login() {
   //   var acno = this.acnt;
   //   var pswd = this.pswd;
+  //   var user = this.ds.userDetails;
+  //   if(acno in user){
+  //     if(pswd==user[acno].password){
+  //       alert('logged in successfully');
+  //       this.router.navigateByUrl('home');
+  //     }else{
+  //       alert('incorrect paswword');
+  //     }
+  //   }else{
+  //     alert('invalid account num');
+  //   }
+  // }
+
+
+  // login(a:any,p:any) {
+  //   var acno = a.value;
+  //   var pswd = p.value;
   //   var user = this.userDetails;
   //   if(acno in user){
   //     if(pswd==user[acno].password){
@@ -52,20 +61,6 @@ export class LoginComponent implements OnInit {
   //     alert('invalid account num');
   //   }
   // }
-  login(a:any,p:any) {
-    var acno = a.value;
-    var pswd = p.value;
-    var user = this.userDetails;
-    if(acno in user){
-      if(pswd==user[acno].password){
-        alert('logged in successfully');
-      }else{
-        alert('incorrect paswword');
-      }
-    }else{
-      alert('invalid account num');
-    }
-  }
 
   acnoChange(event: any) {
     console.log(event);

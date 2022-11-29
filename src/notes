@@ -1,17 +1,21 @@
-                    ANGULAR
+                        ANGULAR
+                ========================
 
 Basic Building Blocks
+==========================
 
 1) Module - To import third party modules(root module - app.module.ts)
 2) Components - To create html,css, and ts files
 
 Basic Commands
+======================
 
 1) To create new project -ng new project_name
 2) To create new Components -ng g c component_name
 3) To run angular files -ng serve --open
 
 Basic Concepts
+===================
 
 1) Data Binding - share data btw Components
 ts--> Component
@@ -27,3 +31,47 @@ a) one way data Binding - data sharing in only one direction(ts to html or html 
         ***)event binding using template referencing variable - #variable_name
 
 b)two way data binding - data sharing in both direction(ts to html and html to ts)
+        i)ngModel binding - import formsModule in app.module.ts - [{ngModel}]='property_name'
+
+
+angular routing
+====================
+to set path for component
+{
+        path:value,component:component_name,
+},
+login
+{
+        path:'',component:LoginComponent,
+},
+
+Angular services
+=====================
+to hold redundant data
+to create new service - ng g s service_name
+
+Dependancy injection
+=========================
+to share data btw two dependent classes
+
+constructor(private ds:service_name){
+
+}
+
+
+Angular Directives
+======================
+to manipulate dom
+a)component directives=>display data as array format
+
+b)structural directives=>display data as table format
+                -->*ngFor
+
+
+Angular Forms
+=====================
+-for advanced validation
+a)template driven forms-first design html template
+b)model driven forms-first design model in ts file
+       1)reactive forms
+       formGroup,array,control-import fom reactive forms module in app.module.ts file
