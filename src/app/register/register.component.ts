@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
 
@@ -15,15 +15,16 @@ export class RegisterComponent implements OnInit {
   pswd = '';
   acnt = '';
 
+
   //registration model
-registerForm=this.fb.group({
-acnt:[],
-pswd:[],
-name:[],
-})
+  registerForm = this.fb.group({
+    acnt: ['', [Validators.pattern('[0-9]*'), Validators.required]],
+    pswd: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
+    name: ['', [Validators.required, Validators.pattern('[a-zA-z]*')]],
+  })
 
 
-  constructor(private fb:FormBuilder,private ds: DataService, private router: Router) {
+  constructor(private fb: FormBuilder, private ds: DataService, private router: Router) {
     //(1st executed)
     //it automatically invokes when the obect is created
     //object initialization
@@ -37,17 +38,37 @@ name:[],
   register() {
     //alert('clicked')
     console.log(this.registerForm);
-    
+    console.log(this.registerForm.get('name')?.errors);
+
+
     let username = this.registerForm.value.name;
     let password = this.registerForm.value.pswd;
     let account = this.registerForm.value.acnt;
-    let result = this.ds.register(username, account, password);
-    if (result) {
-      alert('user registered successfully');
-      this.router.navigateByUrl('home');
-    }else{
-      alert('user already registered');
-      this.router.navigateByUrl('');
+
+    if (this.registerForm.valid) {
+      this.ds.register(username, account, password)
+        .subscribe((result: any) => {
+          alert(result.message);
+          this.router.navigateByUrl('')
+        },
+        (result)=>{
+          alert(result.error.message)
+        }
+     );
+        
+
+      //   if (result) {
+      //     alert('user registered successfully');
+      //     this.router.navigateByUrl('home');
+      //   } else {
+      //     alert('user already registered');
+      //     this.router.navigateByUrl('');
+      //   }
+      // } else {
+      //   alert('invalid data')
+      // }
+    } else {
+      alert('oops something went wrong...try again later')
     }
   }
 }

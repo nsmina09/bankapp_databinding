@@ -1,0 +1,6 @@
+
+ <div class="text-center" *ngIf="item">
+    <h4>Are you sure to delete the item {{item}}?</h4>
+    <button class="btn btn-outline-success mx-2" (click)="yes()">Yes</button>
+    <button (click)="no()" class="btn btn-outline-danger">No</button>
+</div>

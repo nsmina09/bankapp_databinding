@@ -75,3 +75,19 @@ a)template driven forms-first design html template
 b)model driven forms-first design model in ts file
        1)reactive forms
        formGroup,array,control-import fom reactive forms module in app.module.ts file
+
+local storage
+===================
+setItem-store data
+getItem-get data
+removeItem-to remove data from local storage
+
+parent child communication
+========================================
+parent to child-@input
+child to parent-@output
+
+Angular pipe
+================
+
+

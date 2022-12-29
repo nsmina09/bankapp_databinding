@@ -12,8 +12,16 @@ export class TransactionComponent implements OnInit {
 
   constructor(private ds: DataService) {
     this.account=this.ds.currentAccount;
-    this.transaction=this.ds.getTransaction(this.account);
-    console.log(this.transaction);
+   this.ds.getTransaction(this.account)
+   .subscribe((result:any)=>{
+this.transaction=result.transaction;
+console.log(this.transaction);
+
+   },
+   (result)=>{
+    alert(result.error.message)
+   })
+    // console.log(this.transaction);
     
    }
 

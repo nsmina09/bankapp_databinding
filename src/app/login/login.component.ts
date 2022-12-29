@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
 
@@ -14,21 +15,46 @@ export class LoginComponent implements OnInit {
   acnt = '';
   pswd = '';
 
+  loginForm = this.fb.group({
+    acnt: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+    pswd: ['', [Validators.required, Validators.pattern('[0-9a-zA-Z]*')]],
+  });
 
-  constructor(private ds: DataService, private router: Router) { }
+
+  constructor(private ds: DataService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit(): void {
   }
   login() {
-    let acnt = this.acnt;
-    let pswd = this.pswd;
-    let result = this.ds.login(acnt, pswd);
-    if (result) {
-      alert('login successfully');
-      this.router.navigateByUrl('home');
-    } else {
-      alert('login failed');
-    }
+    let acnt = this.loginForm.value.acnt;
+    let pswd = this.loginForm.value.pswd;
+    if (this.loginForm.valid) {
+       this.ds.login(acnt, pswd)
+       .subscribe((result:any)=>{
+        console.log('result',result);
+        localStorage.setItem('currentUser',result.currentUser);
+        localStorage.setItem('currentAccount',result.currentAccount)
+        localStorage.setItem('token',JSON.stringify(result.token))
+
+        alert(result.message);
+        this.router.navigateByUrl('home');
+       },
+       (result)=>{
+        alert(result.error.message);
+       }
+        )}
+    //    })
+    //   console.log(result);
+
+    //   if (result == 'success') {
+    //     alert(`login successfully ${result}`);
+    //     this.router.navigateByUrl('home');
+    //   } else {
+    //     alert(`'login failed '${result}`);
+    //   }
+    // } else {
+    //   alert('invalid datas');
+    // }
   }
   // login() {
   //   var acno = this.acnt;
